@@ -1,3 +1,6 @@
+# Link al dataset en Alphacast:
+[Alphacast dataset](https://www.alphacast.io/datasets/prueba-tecnica-completada-43861)
+
 ### solución al problema planteado en la issue:
 El archivo explicacion.ipynb es un cuaderno de Jupyter que describe paso a paso el enfoque utilizado para resolver el problema, incluyendo código, explicaciones y resultados.
 
