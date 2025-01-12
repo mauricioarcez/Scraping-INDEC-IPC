@@ -24,3 +24,4 @@ stack-data==0.6.3
 tzdata==2024.2
 wcwidth==0.2.13
 xlrd==2.0.1
+selenium==4.27.1
