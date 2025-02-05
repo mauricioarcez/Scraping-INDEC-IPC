@@ -1,0 +1,43 @@
+# .github/workflows/scraping.yml
+name: Scrape on Target Date
+
+on:
+  schedule:
+    # Verificar todos los días a las 23:59 UTC
+    - cron: '59 23 * * *'
+  workflow_dispatch:
+
+jobs:
+  check_and_scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Leer fecha guardada
+        id: read_date
+        run: |
+          echo "next_date=$(cat next_date.txt)" >> $GITHUB_OUTPUT
+
+      - name: Verificar fecha
+        id: check_date
+        run: |
+          TODAY=$(date +'%Y-%m-%d')
+          if [[ "${{ steps.read_date.outputs.next_date }}" == "$TODAY" ]]; then
+            echo "should_scrape=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_scrape=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Ejecutar scraping
+        if: ${{ steps.check_date.outputs.should_scrape == 'true' }}
+        run: python -m src.main
+
+      - name: Commit y push de datos
+        if: ${{ steps.check_date.outputs.should_scrape == 'true' }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "Actualizar datos: $(date +'%Y-%m-%d')"
+          git push

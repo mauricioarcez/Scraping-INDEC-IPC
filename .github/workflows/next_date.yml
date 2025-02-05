@@ -1,0 +1,29 @@
+# .github/workflows/next_date.yml
+name: Update Next Scraping Date
+
+on:
+  schedule:
+    # Ejecutar el día 5 de cada mes (para obtener la fecha del próximo informe)
+    - cron: '0 0 5 * *'
+  workflow_dispatch:
+
+jobs:
+  set_next_date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Obtener próxima fecha
+        run: |
+          NEXT_DATE=$(python -c "from src.scraper import IndecScraper; print(IndecScraper().obtener_fecha_proximo_informe())")
+          echo "NEXT_DATE=$NEXT_DATE" >> $GITHUB_ENV
+
+      - name: Guardar fecha en archivo
+        run: |
+          echo "${{ env.NEXT_DATE }}" > next_date.txt
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add next_date.txt
+          git commit -m "Actualizar fecha del próximo scraping: ${{ env.NEXT_DATE }}"
+          git push
