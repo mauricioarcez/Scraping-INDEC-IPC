@@ -1,1 +1,6 @@
+# Entorno Virtual
 _entornov/
+
+# Archivos de Python
+__pycache__/
+*.pyc

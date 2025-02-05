@@ -1,26 +1,51 @@
-# Link al dataset en Alphacast:
-[Alphacast dataset](https://www.alphacast.io/datasets/prueba-tecnica-completada-43861)
+# Scraper de Precios INDEC
+Este proyecto automatiza la recolección y procesamiento de datos de precios desde el INDEC (Instituto Nacional de Estadística y Censos de Argentina).
 
-### solución al problema planteado en la issue:
-El archivo explicacion.ipynb es un cuaderno de Jupyter que describe paso a paso el enfoque utilizado para resolver el problema, incluyendo código, explicaciones y resultados.
+## 📋 Requisitos
+- Python 3.10 o superior
+- Dependencias listadas en requirements.txt:
 
-### Instalación
-Para ejecutar el cuaderno en tu entorno local, sigue estos pasos:
+## 🚀 Instalación
 
-Clona el repositorio:
-git clone https://github.com/mauricioarcez/reto-tecnico.git
-
-Crea un entorno virtual:
-python -m venv venv
-
-Activa el entorno virtual:
-
-En Windows: venv\Scripts\activate
-
-Instala las dependencias:
+1. Clonar el repositorio.
+2. Crear y activar entorno virtual.
+3. Instalar dependencias:
+```bash
 pip install -r requirements.txt
+playwright install
+```
 
-### Estructura
-- **.gitignore**: Archivo donde se encuentra el entorno virtual oculto de github.
-- **explicacion.ipynb**: Scraping y normalizacion paso a paso. Fuente: [INDEC](https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31)
-- **requirements.txt**: Librerias necesarias para ejecutar el notebook.
+## 💻 Uso
+
+### Ejecución Manual
+
+Para ejecutar el scraping manualmente:
+```bash
+python -m src.main
+```
+
+## 📊 Proceso de Datos
+
+   - Obtiene la URL del archivo Excel de forma dinamica, adelantandose a cambios en nombres de archivo.
+   - Extrae datos de la hoja "Nacional"
+   - Limpieza de datos, Identificación de encabezados, Procesamiento de fechas y precios.
+   - Melt de archivo ancho a largo. 
+   - Generación de IDs únicos por producto
+   - Validacion de datos.
+   - Guardado de archivo limpio en formato .csv
+   - Obtencion de la proxima fecha de informe.
+   - Actualiza el cronograma de ejecución
+   - Se ejecuta automáticamente en la fecha del informe
+   - Guarda y commitea los cambios del nuevo informe
+
+## 📝 Notas
+
+- Los datos se actualizan automáticamente según el calendario del INDEC
+- Los archivos CSV se guardan en el repositorio
+- El workflow se puede ejecutar manualmente desde GitHub Actions si es necesario
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría hacer.
+
+## 📄 Desarrollado por Mauricio Arce. 
