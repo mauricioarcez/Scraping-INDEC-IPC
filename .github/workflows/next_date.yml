@@ -5,6 +5,9 @@ on:
     - cron: '0 0 5 * *'
   workflow_dispatch:
 
+permissions:
+  contents: write  # Agregar permisos explícitos
+
 jobs:
   set_next_date:
     runs-on: ubuntu-latest
@@ -31,11 +34,9 @@ jobs:
           echo "NEXT_DATE=$NEXT_DATE" >> $GITHUB_ENV
 
       - name: Guardar fecha en archivo
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "${{ env.NEXT_DATE }}" > next_date.txt
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add next_date.txt
           git commit -m "Actualizar fecha del próximo scraping: ${{ env.NEXT_DATE }}"
