@@ -10,7 +10,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Cargar variables de entorno
+# Cargar variables de entorno (para pruebas locales)
 load_dotenv()
 
 # Acceder a las variables de entorno
@@ -20,7 +20,7 @@ try:
     access_token = os.environ["ACCESS_TOKEN"]  # Token de acceso
     access_secret = os.environ["ACCESS_SECRET"]  # Secreto del token de acceso
 except KeyError as e:
-    print(f"Error: La variable de entorno {e} no está configurada.")
+    logging.error(f"Error: La variable de entorno {e} no está configurada.")
     raise
 
 
