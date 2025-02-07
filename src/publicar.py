@@ -88,7 +88,7 @@ def publicar_tweet(df_transformado):
         .replace("September", "Septiembre").replace("October", "Octubre") \
         .replace("November", "Noviembre").replace("December", "Diciembre")
 
-    tweet_text = f"🔹IPC {ultimo_mes_str}: {inflacion_promedio:.2f}% \n"
+    tweet_text = f"🔹INDEC IPC {ultimo_mes_str}: {inflacion_promedio:.2f}% \n"
     tweet_text += "\n📊 Regiónes:\n"
     for _, row in df_final.iterrows():
         emoji = "📉" if row["Variación"] < 0 else "📈"
@@ -98,7 +98,7 @@ def publicar_tweet(df_transformado):
     tweet_text += f"\n📈 Destacado:\n"
     tweet_text += f"🔼: {mayor_alza_producto['Productos seleccionados']} +{mayor_alza_producto['Variación']:.2f}%\n"
     tweet_text += f"🔽: {mayor_baja_producto['Productos seleccionados']} {mayor_baja_producto['Variación']:.2f}%\n"
-    tweet_text += "\n🤖Bot | 📂Github/Mauricioarcez"
+    tweet_text += "\n🤖 Bot | 📂Github/Mauricioarcez"
 
     # Publicar el tweet
     try:
