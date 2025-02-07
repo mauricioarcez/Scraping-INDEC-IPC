@@ -4,3 +4,6 @@ _entornov/
 # Archivos de Python
 __pycache__/
 *.pyc
+
+# Claves secretas
+.env

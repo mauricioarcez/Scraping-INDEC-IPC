@@ -38,22 +38,26 @@ def run():
                 
                 # Guardar resultados procesados
                 df_transformado.to_csv("data/nacional_procesado.csv", index=False, encoding='utf-8')
-                logging.info("Datos procesados guardados exitosamente en carpeta data.'")
+                logging.info("Datos procesados guardados exitosamente en carpeta data")
                 
-                return df_transformado
+                # Publicar en Twitter
+                from src.publicar import publicar_tweet
+                publicar_tweet(df_transformado)
+                
+                return df_transformado, "data/nacional_procesado.csv"
             else:
                 logging.error("No se pudieron obtener los datos de la hoja Nacional")
-                return None
+                return None, None
         else:
             logging.error("No se pudo obtener la URL del archivo Excel")
-            return None
+            return None, None
             
     except Exception as e:
         logging.error(f"Error en la ejecución: {str(e)}")
-        return None
+        return None, None
 
 if __name__ == "__main__":
-    df = run()
+    df, csv_path = run()
     if df is not None:
         print("\nPrimeras filas del DataFrame procesado:")
         print(df.head())

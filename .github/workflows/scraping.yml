@@ -19,15 +19,21 @@ jobs:
         run: |
           echo "next_date=$(cat next_date.txt)" >> $GITHUB_OUTPUT
 
-      - name: Verificar fecha
+      # Comentar el paso de verificación de la fecha para pruebas:
+      # - name: Verificar fecha
+      #   id: check_date
+      #   run: |
+      #     TODAY=$(date +'%Y-%m-%d')
+      #     if [[ "${{ steps.read_date.outputs.next_date }}" == "$TODAY" ]]; then
+      #       echo "should_scrape=true" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "should_scrape=false" >> $GITHUB_OUTPUT
+      #     fi
+
+      # Paso para simular que la fecha del informe es hoy (para pruebas)
+      - name: Simular fecha de informe
         id: check_date
-        run: |
-          TODAY=$(date +'%Y-%m-%d')
-          if [[ "${{ steps.read_date.outputs.next_date }}" == "$TODAY" ]]; then
-            echo "should_scrape=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_scrape=false" >> $GITHUB_OUTPUT
-          fi
+        run: echo "should_scrape=true" >> $GITHUB_OUTPUT
 
       - name: Ejecutar scraping
         if: ${{ steps.check_date.outputs.should_scrape == 'true' }}
