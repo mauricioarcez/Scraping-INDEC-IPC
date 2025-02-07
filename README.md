@@ -1,9 +1,11 @@
-# Scraper Automatizado de Precios por regiones INDEC
+# Scraper y Reporte Automatizado de Precios por regiones INDEC
 Este proyecto resuelve la complejidad estructural de los informes oficiales de precios de alimentos del [INDEC](https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31), donde los datos se publican en excels desorganizados con formatos inconsistentes, saltos de línea, contenido que cambia constantemente el nombre de sus archivos y renderizado dinámico con js que complica su obtencion automatizada. 
 
-Mediante un sistema de scraping avanzado con Playwright (para superar las barreras de JavaScript), combinado con un pipeline de limpieza automatizada en Python, convertimos estas fuentes inutilizables en datasets analizables con informacion actualizada todos los meses.  
 
-**Resultado**: Información lista y actualizada para análisis en .CSV, permitiendo estudios de inflación, tendencias regionales y evolución histórica con la fuente oficial pero sin el trabajo manual. 
+Mediante un sistema de scraping avanzado con Playwright (para superar las barreras de JavaScript), combinado con un pipeline de limpieza automatizada en Python, convertimos estas fuentes inutilizables en datasets analizables con información actualizada todos los meses, y también publicamos información destacada y actualizada en Twitter.  
+
+
+**Resultado**: Información lista y actualizada para análisis en .CSV, permitiendo estudios de inflación, tendencias regionales y evolución histórica con la fuente oficial pero sin el trabajo manual. Ademas, información destacada del informe actualizado en mi [Twitter](https://x.com/MauricioArceZ) Personal. 
 
 
 ## 📋 Requisitos
@@ -43,7 +45,7 @@ python -m src.main
 
 2. **Scrape on Target Date**
     - Verifica diariamente si es la fecha programada
-    - Ejecuta el scraping solo cuando coincide con next_date.txt
+    - Ejecuta el scraping y publicacion solo cuando coincide con next_date.txt
     - Guarda los datos actualizados en el repositorio
 
 ## 📊 Proceso de Datos
@@ -56,8 +58,9 @@ python -m src.main
     - Conversión de formato ancho a largo
     - Generación de IDs únicos por producto
     - Validación de datos
-4. Guardado de archivos procesados en formato CSV
-5. Actualización automática del repositorio
+4. Guardado de archivos procesados en formato CSV.
+5. Actualización automática del repositorio.
+6. Publicacion en Twitter con información destacada.
 
 ## 📝 Notas
 
@@ -70,4 +73,4 @@ python -m src.main
 
 Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría hacer.
 
-## 📄 Desarrollado por Mauricio Arce | [Linkedin](https://www.linkedin.com/in/mauricioarcez/)
+## 📄 Desarrollado por Mauricio Arce | [Linkedin](https://www.linkedin.com/in/mauricioarcez/) | [Twitter](https://x.com/MauricioArceZ)
