@@ -1,8 +1,12 @@
 from src.scraper import IndecScraper
 from src.transformaciones import TransformadorDatos
+from src.publicar import publicar_tweet
 import logging
 import pandas as pd
 import os
+from datetime import datetime
+import shutil
+
 
 # Configurar logging
 logging.basicConfig(
@@ -10,16 +14,13 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Crear directorios si no existen
-def crear_directorios():
-    """Crea los directorios necesarios para almacenar los datos"""
-    os.makedirs('data/', exist_ok=True)
-
 def run():
-    """Función principal para ejecutar el scraper y las transformaciones"""
+    """Función principal para ejecutar el scraper, las transformaciones y la publicación del tweet."""
     try:
-        # Crear directorios
-        crear_directorios()
+        # Eliminar la carpeta data si existe y volver a crearla
+        if os.path.exists("data"):
+            shutil.rmtree("data")
+        os.makedirs("data")  # Crear la carpeta nuevamente
         
         # Ejecutar el scraper
         scraper = IndecScraper()
@@ -29,37 +30,38 @@ def run():
             df_nacional = scraper.obtener_datos_nacional(url_excel)
             
             if df_nacional is not None: 
+                # Generar un timestamp
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                
+                # Nombres de archivos
+                crudo_file = f"data/nacional_crudo_{timestamp}.csv"
+                procesado_file = f"data/nacional_procesado_{timestamp}.csv"
+
                 # Guardar datos crudos
-                scraper.guardar_csv(df_nacional, "data/nacional_crudo.csv")
+                scraper.guardar_csv(df_nacional, crudo_file)
                 
                 # Aplicar transformaciones
                 transformador = TransformadorDatos(df_nacional)
                 df_transformado = transformador.identificar_encabezados()
                 
                 # Guardar resultados procesados
-                df_transformado.to_csv("data/nacional_procesado.csv", index=False, encoding='utf-8')
+                df_transformado.to_csv(procesado_file, index=False, encoding='utf-8')
                 logging.info("Datos procesados guardados exitosamente en carpeta data")
                 
                 # Publicar en Twitter
-                from src.publicar import publicar_tweet
                 publicar_tweet(df_transformado)
                 
-                return df_transformado, "data/nacional_procesado.csv"
+                return df_transformado, procesado_file
             else:
                 logging.error("No se pudieron obtener los datos de la hoja Nacional")
                 return None, None
         else:
             logging.error("No se pudo obtener la URL del archivo Excel")
             return None, None
-            
+
     except Exception as e:
         logging.error(f"Error en la ejecución: {str(e)}")
         return None, None
 
 if __name__ == "__main__":
-    df, csv_path = run()
-    if df is not None:
-        print("\nPrimeras filas del DataFrame procesado:")
-        print(df.head())
-        print("\nInformación del DataFrame:")
-        print(df.info())
+    run()

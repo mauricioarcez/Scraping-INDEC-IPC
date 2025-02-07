@@ -3,7 +3,6 @@ import tweepy
 import pandas as pd
 import logging
 from dotenv import load_dotenv
-from src.main import run
 
 # Configurar logging
 logging.basicConfig(
@@ -11,20 +10,18 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Cargar variables de entorno al inicio
+# Cargar variables de entorno
 load_dotenv()
 
-# Configuración de Twitter API
-API_KEY = os.getenv("API_KEY")
-API_SECRET = os.getenv("API_SECRET")
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-ACCESS_SECRET = os.getenv("ACCESS_SECRET")
-BEARER_TOKEN = os.getenv("BEARER_TOKEN")
-
-if not API_KEY or not API_SECRET or not ACCESS_TOKEN or not ACCESS_SECRET:
-    logging.error("Error: Las credenciales de Twitter no están configuradas correctamente.")
-    raise ValueError("Credenciales de Twitter no configuradas.")
-
+# Acceder a las variables de entorno
+try:
+    api_key = os.environ["API_KEY"]  # Clave de la API
+    api_secret = os.environ["API_SECRET"]  # Secreto de la API
+    access_token = os.environ["ACCESS_TOKEN"]  # Token de acceso
+    access_secret = os.environ["ACCESS_SECRET"]  # Secreto del token de acceso
+except KeyError as e:
+    print(f"Error: La variable de entorno {e} no está configurada.")
+    raise
 
 
 def publicar_tweet(df_transformado):
@@ -41,10 +38,10 @@ def publicar_tweet(df_transformado):
 
     # Autenticación en API v2
     client = tweepy.Client(
-        consumer_key=API_KEY,
-        consumer_secret=API_SECRET,
-        access_token=ACCESS_TOKEN,
-        access_token_secret=ACCESS_SECRET,
+        consumer_key=api_key,
+        consumer_secret=api_secret,
+        access_token=access_token,
+        access_token_secret=access_secret,
     )
 
     # Preparar los datos para el tweet
