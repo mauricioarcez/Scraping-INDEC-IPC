@@ -2,7 +2,7 @@ name: Update Next Scraping Date
 
 on:
   schedule:
-    - cron: '0 0 5 * *'
+    - cron: '0 0 22 * *'  # Se ejecutará a las 22:00 UTC (19:00 ARG)
   workflow_dispatch:
 
 permissions:
