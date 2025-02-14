@@ -41,9 +41,9 @@ jobs:
           fi
 
       # Paso para simular que la fecha del informe es hoy (para pruebas)
-      # - name: Simular fecha de informe
-      #   id: check_date
-      #   run: echo "should_scrape=true" >> $GITHUB_OUTPUT
+      - name: Simular fecha de informe
+        id: check_date
+        run: echo "should_scrape=true" >> $GITHUB_OUTPUT
 
       - name: Ejecutar scraping
         if: ${{ steps.check_date.outputs.should_scrape == 'true' }}
