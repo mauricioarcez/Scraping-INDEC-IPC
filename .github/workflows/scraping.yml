@@ -3,7 +3,7 @@ name: Scrape on Target Date
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # Se ejecutará todos los dias a las 22:00 UTC (19:00 ARG)
+    - cron: '0 20 * * *'  # Se ejecutará todos los dias a las 20:00 UTC (17:00 ARG)
   workflow_dispatch:
 
 jobs:
